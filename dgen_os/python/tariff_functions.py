@@ -156,7 +156,7 @@ class Tariff:
                         'getpage':urdb_id,
                         'api_key':api_key}
                         
-            r = req.get('http://api.openei.org/utility_rates?', params=input_params)
+            r = req.get('http://api.openei.org/utility_rates?', params=input_params, timeout=60)
         
             content = r.content
             tariff_original = json.loads(content, strict=False)['items'][0]
@@ -997,7 +997,7 @@ def download_tariffs_from_urdb(api_key, sector=None, utility=None, print_progres
     while flag == True:
         input_params['offset'] = offset
     
-        r = req.get('http://api.openei.org/utility_rates?', params=input_params)
+        r = req.get('http://api.openei.org/utility_rates?', params=input_params, timeout=60)
         
         content = r.content
         tariff_list = json.loads(content, strict=False)['items']   
