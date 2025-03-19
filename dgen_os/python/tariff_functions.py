@@ -3,14 +3,14 @@
 Deprecated. Nullified by new PySAM code and will be taken out in Beta release.
 
 """
-
-import requests as req
 import numpy as np
 import pandas as pd
 import codecs
 import json
 import csv
 import logging
+from security import safe_requests
+
 logging.getLogger("requests").setLevel(logging.WARNING)
 
 
@@ -156,7 +156,7 @@ class Tariff:
                         'getpage':urdb_id,
                         'api_key':api_key}
                         
-            r = req.get('http://api.openei.org/utility_rates?', params=input_params)
+            r = safe_requests.get('http://api.openei.org/utility_rates?', params=input_params)
         
             content = r.content
             tariff_original = json.loads(content, strict=False)['items'][0]
@@ -997,7 +997,7 @@ def download_tariffs_from_urdb(api_key, sector=None, utility=None, print_progres
     while flag == True:
         input_params['offset'] = offset
     
-        r = req.get('http://api.openei.org/utility_rates?', params=input_params)
+        r = safe_requests.get('http://api.openei.org/utility_rates?', params=input_params)
         
         content = r.content
         tariff_list = json.loads(content, strict=False)['items']   
